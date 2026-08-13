@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie Photos</title>
+  
+  <!-- jQuery (Requis pour nanogallery2) -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  
+  <!-- nanogallery2 CSS & JS -->
+  <link href="https://cdn.jsdelivr.net/npm/nanogallery2@3/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/nanogallery2@3/dist/jquery.nanogallery2.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #0f0f11;
+      color: #f1f1f1;
+      font-family: sans-serif;
+    }
+    .gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header style="text-align: center; margin-bottom: 30px;">
+    <h1>Galerie Photos</h1>
+  </header>
+
+  <!-- CONTENEUR OBLIGATOIRE POUR LA GALERIE -->
+  <div class="gallery-container">
+    <div id="nanogallery"></div>
+  </div>
+
+  <script>
+  $(document).ready(function () {
+    $("#nanogallery").nanogallery2({
+      itemsBaseURL: './',
+      items: [
+        { src: "medias/20260215_152150145.jpg", srct: "thumbnails/20260215_152150145.jpg", title: "20260215 152150145" },
+      ],
+      thumbnailHeight: "280",
+      thumbnailWidth: "auto"
+    });
+  });
+</script>
+</body>
+</html>
