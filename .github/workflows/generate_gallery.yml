@@ -1,0 +1,55 @@
+name: Generation et Deploiement de la galerie
+
+on:
+  push:
+    paths:
+      - 'medias/**'
+  workflow_dispatch:
+
+# Permissions nécessaires pour modifier le dépôt ET déployer sur Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Empêche plusieurs déploiements simultanés
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Installation de Pillow
+        run: pip install Pillow
+
+      - name: Exécution du script Python
+        run: python build_gallery.py
+
+      - name: Commit et Push des modifications dans le dépôt
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add thumbnails/ index.html
+          git diff-index --quiet HEAD || git commit -m "bot: mise a jour de la galerie et des vignettes"
+          git push
+
+      - name: Configuration de GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empaquetage des fichiers du site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Déploiement direct sur GitHub Pages
+        uses: actions/deploy-pages@v4
